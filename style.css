@@ -1,0 +1,158 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#content {
+  height: 100vh;
+  background-color: #f0f8ff;
+}
+
+/* header {
+  background-color: salmon;
+  height: 5%;
+} */
+
+#main {
+  display: flex;
+  height: 100%;
+}
+
+/* Project Col */
+
+#col-1 {
+  width: 20%;
+  /* background-color: #d8dfe5; */
+  background-color: salmon;
+}
+
+#project-container {
+  margin: 40px;
+  font-size: 25px;
+  color: #333333;
+}
+
+#project-header {
+  border-bottom: 2px solid #333333;
+  padding: 0 0 10px 0;
+}
+
+.project-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project-group .fa-edit,
+.fa-trash-alt {
+  font-size: 16px;
+}
+
+.project {
+  padding: 5px;
+  word-break: break-all;
+}
+
+/* Add project */
+#add-project {
+  display: flex;
+  align-items: center;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+#add-project:hover {
+  opacity: 1;
+  color: #333333;
+}
+
+#add-project-text {
+  font-size: 16px;
+  padding-left: 5px;
+}
+
+/* Task Col */
+
+#col-2 {
+  width: 80%;
+}
+
+#task-container {
+  /* border: 1px solid black; */
+  margin: 40px;
+}
+
+#task-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 25px;
+}
+
+.task {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid #3333;
+}
+
+.task-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-name {
+  padding-left: 20px;
+  cursor: pointer;
+}
+
+.button-date-group {
+  display: flex;
+}
+
+.task-buttons {
+  padding-right: 20px;
+}
+
+.fa-edit,
+.fa-trash-alt {
+  cursor: pointer;
+  opacity: 0.5;
+  padding-left: 5px;
+}
+
+.fa-edit:hover {
+  opacity: 1;
+}
+
+.fa-trash-alt:hover {
+  opacity: 1;
+}
+
+.due-date {
+  color: salmon;
+}
+
+/* Add task */
+#add-task {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  cursor: pointer;
+  opacity: 0.5;
+  /* border: 1px solid black; */
+}
+
+#add-task:hover {
+  opacity: 1;
+  color: salmon;
+}
+
+#plus {
+  font-size: 35px;
+}
+
+#add-task-text {
+  font-size: 16px;
+  padding-left: 5px;
+}
