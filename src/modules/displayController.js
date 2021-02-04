@@ -1,3 +1,6 @@
+import domListeners from './domListeners';
+import deleteTask from './deleteTask';
+
 const displayController = (() => {
   const content = document.getElementById('content');
   content.innerHTML = `
@@ -58,7 +61,6 @@ const displayController = (() => {
   </div>
   `;
 
-  const main = document.getElementById('main');
   const addProject = document.getElementById('add-project');
   const addTask = document.getElementById('add-task');
   const createTaskModal = document.getElementById('create-task-modal');
@@ -100,11 +102,30 @@ const displayController = (() => {
     myTasks.push(taskObj);
   };
 
+  const removeTaskFromArr = taskObj => {
+    for (let i = 0; i < myTasks.length; i++) {
+      if (myTasks[i].id === taskObj) {
+        myTasks.splice(i, 1);
+      }
+    }
+  };
+
+  const trashHandler = () => {
+    const trash = document.querySelectorAll('.fa-trash-alt');
+    for (let i = 0; i < trash.length; i++) {
+      trash[i].addEventListener('click', deleteTask);
+    }
+  };
+
+  const viewTaskHandler = () => {
+    const task = document.querySelectorAll('.task');
+  };
+
   if (localStorage.getItem('myTasks')) {
     const getObj = JSON.parse(localStorage.getItem('myTasks'));
     myTasks = getObj;
     loadTask();
-    console.log(myTasks);
+    trashHandler();
   }
 
   return {
@@ -119,6 +140,8 @@ const displayController = (() => {
     createTaskProject,
     addToTaskArr,
     myTasks,
+    removeTaskFromArr,
+    loadTask,
   };
 })();
 

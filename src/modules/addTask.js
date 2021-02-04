@@ -52,12 +52,7 @@ const addTask = e => {
   displayController.addToTaskArr(newTask);
   storage.saveToLocal();
 
-  console.log(displayController.myTasks);
-
   displayController.createTaskModal.style.display = 'none';
 };
-
-// enable a modal to create a new task
-// append task to page when form is submitted
 
 export default addTask;
