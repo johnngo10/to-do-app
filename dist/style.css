@@ -156,3 +156,89 @@
   font-size: 16px;
   padding-left: 5px;
 }
+
+/* Create task modal */
+#create-task-modal {
+  display: none;
+  /* display: flex; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+#create-task-modal form {
+  border: 1px solid black;
+  background-color: #f0f8ff;
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+}
+
+#create-task-group-1 {
+  display: flex;
+  flex-direction: column;
+}
+
+#create-task-group-1 input {
+  padding: 5px;
+  font-size: 18px;
+  margin: 0 0 10px 0;
+  background-color: #f0f8ff;
+  border: none;
+  outline: none;
+}
+
+#create-task-group-1 textarea {
+  padding: 5px;
+  font-size: 16px;
+  margin: 0 0 10px 0;
+  background-color: #f0f8ff;
+  border: none;
+  outline: none;
+  resize: none;
+}
+
+#create-task-group-2 {
+  margin-bottom: 10px;
+}
+
+#create-task-date {
+  padding: 2px;
+  font-size: 16px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+#create-task-project {
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid lightgray;
+  outline: none;
+}
+
+#cancel-button {
+  border: 1px solid lightgray;
+  background-color: white;
+  padding: 5px;
+  cursor: pointer;
+  margin-right: 5px;
+  outline: none;
+}
+
+#submit-button {
+  border: none;
+  background-color: salmon;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+  outline: none;
+}
