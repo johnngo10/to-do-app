@@ -50,6 +50,8 @@ const addTask = e => {
   );
 
   displayController.addToTaskArr(newTask);
+  displayController.trashHandler();
+  displayController.viewTaskHandler();
   storage.saveToLocal();
 
   displayController.createTaskModal.style.display = 'none';

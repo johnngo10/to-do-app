@@ -6,6 +6,7 @@ function task(id, title, description, dueDate, priority, project) {
     dueDate: dueDate,
     priority: priority,
     project: project,
+    checked: false,
   };
 }
 

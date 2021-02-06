@@ -1,5 +1,8 @@
 import domListeners from './domListeners';
 import deleteTask from './deleteTask';
+import viewTask from './viewTask';
+import completedTask from './completedTask';
+import storage from './storage';
 
 const displayController = (() => {
   const content = document.getElementById('content');
@@ -50,7 +53,7 @@ const displayController = (() => {
         ></textarea>
       </div>
       <div id="create-task-group-2">
-        <input type="date" id="create-task-date" required />
+        <input type="date" id="create-task-date" name="date" required />
         <input type="text" id="create-task-project" />
       </div>
       <div id="create-task-group-3">
@@ -58,6 +61,20 @@ const displayController = (() => {
         <input type="submit" id="submit-button" />
       </div>
     </form>
+  </div>
+  <div id="view-task-modal">
+    <div id="view-task-container">
+      <p id="view-task-title"></p>
+      <p id="view-task-description"></p>
+      <div id="view-task-date-project">
+        <p id="view-due-date">Due Date:</p>
+        <p id="view-project">Project:</p>
+      </div>
+      <div id="create-task-group-3">
+        <button id="view-cancel-button">Cancel</button>
+        <input type="submit" id="edit-button" value="Edit" />
+      </div>
+    </div>
   </div>
   `;
 
@@ -82,13 +99,17 @@ const displayController = (() => {
         `
         <div class="task" data-id="${myTasks[i].id}">
           <div class="task-group">
-            <input type="checkbox" class="checkbox" />
+            <input type="checkbox" class="checkbox" ${myTasks[i].checked}/>
             <p class="task-name">${myTasks[i].title}</p>
           </div>
           <div class="button-date-group">
             <div class="task-buttons">
-              <i class="far fa-edit"></i>
-              <i class="far fa-trash-alt"></i>
+              <div>
+                <i class="far fa-edit"></i>
+              </div>
+              <div>
+                <i class="far fa-trash-alt"></i>
+              </div>
             </div>
             <p class="due-date">${myTasks[i].dueDate}</p>
           </div>
@@ -118,7 +139,30 @@ const displayController = (() => {
   };
 
   const viewTaskHandler = () => {
-    const task = document.querySelectorAll('.task');
+    const taskName = document.querySelectorAll('.task-name');
+    for (let i = 0; i < taskName.length; i++) {
+      taskName[i].addEventListener('click', viewTask);
+    }
+  };
+
+  const checkHandler = () => {
+    const checkbox = document.querySelectorAll('.checkbox');
+    for (let i = 0; i < checkbox.length; i++) {
+      checkbox[i].addEventListener('click', e => {
+        const target = e.target;
+        const parent = target.parentElement.parentElement;
+        const completed = target.checked ? 'checked' : false;
+        const taskId = parent.getAttribute('data-id');
+
+        for (let i = 0; i < myTasks.length; i++) {
+          if (myTasks[i].id === taskId) {
+            myTasks[i].checked = completed;
+          }
+        }
+        storage.saveToLocal();
+        completedTask();
+      });
+    }
   };
 
   if (localStorage.getItem('myTasks')) {
@@ -126,6 +170,9 @@ const displayController = (() => {
     myTasks = getObj;
     loadTask();
     trashHandler();
+    viewTaskHandler();
+    checkHandler();
+    completedTask();
   }
 
   return {
@@ -142,6 +189,8 @@ const displayController = (() => {
     myTasks,
     removeTaskFromArr,
     loadTask,
+    trashHandler,
+    viewTaskHandler,
   };
 })();
 
