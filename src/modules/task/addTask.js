@@ -1,6 +1,6 @@
 import task from './task';
-import displayController from './displayController';
-import storage from './storage';
+import displayController from '../displayController';
+import storage from '../storage';
 
 const addTask = e => {
   e.preventDefault();

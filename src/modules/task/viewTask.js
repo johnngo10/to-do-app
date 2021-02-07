@@ -1,4 +1,4 @@
-import displayController from './displayController';
+import displayController from '../displayController';
 
 const viewTask = e => {
   const viewTaskTitle = document.getElementById('view-task-title');

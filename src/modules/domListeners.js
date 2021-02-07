@@ -1,6 +1,6 @@
 import displayController from './displayController';
-import addTask from './addTask';
-import createProject from './createProject';
+import addTask from './task/addTask';
+import createProject from './project/createProject';
 
 const domListeners = () => {
   const faCheck = document.querySelector('.fa-check');

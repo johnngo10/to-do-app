@@ -1,9 +1,11 @@
 import domListeners from './domListeners';
-import deleteTask from './deleteTask';
-import viewTask from './viewTask';
-import completedTask from './completedTask';
+import deleteTask from './task/deleteTask';
+import viewTask from './task/viewTask';
+import completedTask from './task/completedTask';
 import storage from './storage';
-import createProject from './createProject';
+import createProject from './project/createProject';
+import removeProject from './project/removeProject';
+import filterTask from './project/filterTask';
 
 const displayController = (() => {
   const content = document.getElementById('content');
@@ -15,7 +17,7 @@ const displayController = (() => {
           <h3>Projects</h3>
         </div>
         <div class="project-group">
-          <h3 class="project">All</h3>
+          <h3 id="all-project">All</h3>
         </div>
         <div id="add-project-input-container">
           <input type="text" id="add-project-input" />
@@ -141,19 +143,26 @@ const displayController = (() => {
     }
   };
 
-  const addToTaskArr = taskObj => {
-    myTasks.push(taskObj);
-  };
-  const addToProjectArr = project => {
-    myProjects.push(project);
+  const projectHandler = () => {
+    const project = document.querySelectorAll('.project');
+    const allProject = document.getElementById('all-project');
+
+    allProject.addEventListener('click', e => {
+      const task = document.querySelectorAll('.task');
+      for (let i = 0; i < task.length; i++) {
+        task[i].remove();
+      }
+
+      loadTask();
+    });
+
+    for (let i = 0; i < project.length; i++) {
+      project[i].addEventListener('click', filterTask);
+    }
   };
 
-  const removeTaskFromArr = taskId => {
-    for (let i = 0; i < myTasks.length; i++) {
-      if (myTasks[i].id === taskId) {
-        myTasks.splice(i, 1);
-      }
-    }
+  const addToProjectArr = project => {
+    myProjects.push(project);
   };
 
   const removeProjectFromArr = projectId => {
@@ -164,24 +173,29 @@ const displayController = (() => {
     }
   };
 
+  const projectTrashHandler = () => {
+    const deleteProject = document.querySelectorAll('.delete-project');
+    for (let i = 0; i < deleteProject.length; i++) {
+      deleteProject[i].addEventListener('click', removeProject);
+    }
+  };
+
+  const addToTaskArr = taskObj => {
+    myTasks.push(taskObj);
+  };
+
+  const removeTaskFromArr = taskId => {
+    for (let i = 0; i < myTasks.length; i++) {
+      if (myTasks[i].id === taskId) {
+        myTasks.splice(i, 1);
+      }
+    }
+  };
+
   const trashHandler = () => {
     const trash = document.querySelectorAll('.fa-trash-alt');
     for (let i = 0; i < trash.length; i++) {
       trash[i].addEventListener('click', deleteTask);
-    }
-  };
-
-  const projectTrashHandler = () => {
-    const deleteProject = document.querySelectorAll('.delete-project');
-    for (let i = 0; i < deleteProject.length; i++) {
-      deleteProject[i].addEventListener('click', e => {
-        const target = e.target;
-        const parent = target.parentElement.parentElement;
-        const projectId = parent.getAttribute('data-id');
-        removeProjectFromArr(projectId);
-        parent.remove();
-        storage.saveProjectToLocal();
-      });
     }
   };
 
@@ -232,6 +246,7 @@ const displayController = (() => {
     myProjects = getObj;
     loadProjects();
     projectTrashHandler();
+    projectHandler();
   }
 
   return {
@@ -249,6 +264,7 @@ const displayController = (() => {
     myTasks,
     myProjects,
     removeTaskFromArr,
+    removeProjectFromArr,
     loadTask,
     trashHandler,
     viewTaskHandler,

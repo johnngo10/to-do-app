@@ -1,5 +1,5 @@
-import displayController from './displayController';
-import storage from './storage';
+import displayController from '../displayController';
+import storage from '../storage';
 import project from './project';
 
 const createProject = () => {
