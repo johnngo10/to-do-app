@@ -3,6 +3,7 @@ import deleteTask from './deleteTask';
 import viewTask from './viewTask';
 import completedTask from './completedTask';
 import storage from './storage';
+import createProject from './createProject';
 
 const displayController = (() => {
   const content = document.getElementById('content');
@@ -16,11 +17,11 @@ const displayController = (() => {
         <div class="project-group">
           <h3 class="project">All</h3>
         </div>
-        <div class="project-group">
-          <h3 class="project">Coding</h3>
+        <div id="add-project-input-container">
+          <input type="text" id="add-project-input" />
           <div class="task-buttons">
-            <i class="far fa-edit"></i>
-            <i class="far fa-trash-alt"></i>
+            <i class="fas fa-check"></i>
+            <i class="fas fa-ban"></i>
           </div>
         </div>
         <div id="add-project">
@@ -90,7 +91,11 @@ const displayController = (() => {
   const createTaskDate = document.getElementById('create-task-date').value;
   const createTaskProject = document.getElementById('create-task-project')
     .value;
+  const addProjectInputContainer = document.getElementById(
+    'add-project-input-container'
+  );
   let myTasks = [];
+  let myProjects = [];
 
   const loadTask = () => {
     for (let i = 0; i < myTasks.length; i++) {
@@ -119,14 +124,42 @@ const displayController = (() => {
     }
   };
 
+  const loadProjects = () => {
+    for (let i = 0; i < myProjects.length; i++) {
+      addProjectInputContainer.insertAdjacentHTML(
+        'beforebegin',
+        `
+        <div class="project-group" data-id="${myProjects[i].id}">
+          <h3 class="project">${myProjects[i].title}</h3>
+          <div class="task-buttons">
+            <i class="far fa-edit"></i>
+            <i class="far fa-trash-alt delete-project"></i>
+          </div>
+        </div>
+        `
+      );
+    }
+  };
+
   const addToTaskArr = taskObj => {
     myTasks.push(taskObj);
   };
+  const addToProjectArr = project => {
+    myProjects.push(project);
+  };
 
-  const removeTaskFromArr = taskObj => {
+  const removeTaskFromArr = taskId => {
     for (let i = 0; i < myTasks.length; i++) {
-      if (myTasks[i].id === taskObj) {
+      if (myTasks[i].id === taskId) {
         myTasks.splice(i, 1);
+      }
+    }
+  };
+
+  const removeProjectFromArr = projectId => {
+    for (let i = 0; i < myProjects.length; i++) {
+      if (myProjects[i].id === projectId) {
+        myProjects.splice(i, 1);
       }
     }
   };
@@ -135,6 +168,20 @@ const displayController = (() => {
     const trash = document.querySelectorAll('.fa-trash-alt');
     for (let i = 0; i < trash.length; i++) {
       trash[i].addEventListener('click', deleteTask);
+    }
+  };
+
+  const projectTrashHandler = () => {
+    const deleteProject = document.querySelectorAll('.delete-project');
+    for (let i = 0; i < deleteProject.length; i++) {
+      deleteProject[i].addEventListener('click', e => {
+        const target = e.target;
+        const parent = target.parentElement.parentElement;
+        const projectId = parent.getAttribute('data-id');
+        removeProjectFromArr(projectId);
+        parent.remove();
+        storage.saveProjectToLocal();
+      });
     }
   };
 
@@ -165,6 +212,11 @@ const displayController = (() => {
     }
   };
 
+  // const addProjectHandler = () => {
+  //   const addProject = document.getElementById('add-project');
+  //   addProject.addEventListener('click', project);
+  // };
+
   if (localStorage.getItem('myTasks')) {
     const getObj = JSON.parse(localStorage.getItem('myTasks'));
     myTasks = getObj;
@@ -173,6 +225,13 @@ const displayController = (() => {
     viewTaskHandler();
     checkHandler();
     completedTask();
+  }
+
+  if (localStorage.getItem('myProjects')) {
+    const getObj = JSON.parse(localStorage.getItem('myProjects'));
+    myProjects = getObj;
+    loadProjects();
+    projectTrashHandler();
   }
 
   return {
@@ -186,11 +245,14 @@ const displayController = (() => {
     createTaskDate,
     createTaskProject,
     addToTaskArr,
+    addToProjectArr,
     myTasks,
+    myProjects,
     removeTaskFromArr,
     loadTask,
     trashHandler,
     viewTaskHandler,
+    projectTrashHandler,
   };
 })();
 

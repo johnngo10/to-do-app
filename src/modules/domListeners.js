@@ -1,7 +1,16 @@
 import displayController from './displayController';
 import addTask from './addTask';
+import createProject from './createProject';
 
 const domListeners = () => {
+  const faCheck = document.querySelector('.fa-check');
+  const faBan = document.querySelector('.fa-ban');
+  const addProject = document.getElementById('add-project');
+  const addProjectInputContainer = document.getElementById(
+    'add-project-input-container'
+  );
+
+  // Add Task
   displayController.addTask.addEventListener('click', e => {
     displayController.createTaskModal.style.display = 'flex';
   });
@@ -11,6 +20,19 @@ const domListeners = () => {
   });
 
   displayController.createTaskForm.addEventListener('submit', addTask);
+
+  // Add Project
+  displayController.addProject.addEventListener('click', e => {
+    addProjectInputContainer.style.display = 'flex';
+    addProject.style.display = 'none';
+  });
+
+  faCheck.addEventListener('click', createProject);
+
+  faBan.addEventListener('click', e => {
+    addProjectInputContainer.style.display = 'none';
+    addProject.style.display = 'flex';
+  });
 };
 
 export default domListeners;

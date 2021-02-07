@@ -41,6 +41,7 @@
 .project-group {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .project-group .fa-edit,
@@ -69,6 +70,37 @@
 #add-project-text {
   font-size: 16px;
   padding-left: 5px;
+}
+
+#add-project-input-container {
+  display: none;
+  /* display: flex; */
+  justify-content: space-between;
+  align-items: center;
+}
+
+#add-project-input-container .fa-check,
+.fa-ban {
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.5;
+  padding-left: 5px;
+}
+
+#add-project-input-container .fa-check:hover,
+.fa-ban:hover {
+  opacity: 1;
+}
+
+#add-project-input-container input {
+  border: 1px solid #3333;
+  font-size: 29.25px;
+  background-color: salmon;
+  outline: none;
+  width: 80%;
+  padding: 0 5px;
+  color: #333333;
+  font-weight: bold;
 }
 
 /* Task Col */
@@ -182,6 +214,7 @@
   padding: 20px;
   border: none;
   border-radius: 5px;
+  margin-bottom: 200px;
 }
 
 #create-task-group-1 {
@@ -268,6 +301,7 @@
   border: none;
   border-radius: 5px;
   width: 400px;
+  margin-bottom: 200px;
 }
 
 #view-task-title {

@@ -5,11 +5,18 @@ const storage = (() => {
     localStorage.setItem(`myTasks`, JSON.stringify(displayController.myTasks));
   };
 
+  const saveProjectToLocal = () => {
+    localStorage.setItem(
+      `myProjects`,
+      JSON.stringify(displayController.myProjects)
+    );
+  };
+
   const deleteFromLocal = taskId => {
     localStorage.removeItem(`${taskId}`);
   };
 
-  return { saveToLocal, deleteFromLocal };
+  return { saveToLocal, saveProjectToLocal, deleteFromLocal };
 })();
 
 export default storage;
