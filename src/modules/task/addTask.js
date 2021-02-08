@@ -26,7 +26,6 @@ const addTask = e => {
     createTaskTitle,
     createTaskDescription,
     createTaskDate,
-    'Low',
     createTaskProject
   );
 
@@ -40,7 +39,7 @@ const addTask = e => {
       </div>
       <div class="button-date-group">
         <div class="task-buttons">
-          <i class="far fa-edit"></i>
+          <i class="far fa-edit edit-task-button"></i>
           <i class="far fa-trash-alt"></i>
         </div>
         <p class="due-date">${newTask.dueDate}</p>
@@ -52,6 +51,8 @@ const addTask = e => {
   displayController.addToTaskArr(newTask);
   displayController.trashHandler();
   displayController.viewTaskHandler();
+  displayController.checkHandler();
+  displayController.editTaskHandler();
   storage.saveToLocal();
 
   displayController.createTaskModal.style.display = 'none';

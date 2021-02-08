@@ -37,6 +37,7 @@ const createProject = () => {
   displayController.addToProjectArr(newProject);
   storage.saveProjectToLocal();
   displayController.projectTrashHandler();
+  displayController.projectHandler();
   console.log(displayController.myProjects);
 };
 

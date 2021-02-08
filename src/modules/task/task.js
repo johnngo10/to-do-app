@@ -1,10 +1,9 @@
-function task(id, title, description, dueDate, priority, project) {
+function task(id, title, description, dueDate, project) {
   return {
     id: id,
     title: title,
     description: description,
     dueDate: dueDate,
-    priority: priority,
     project: project,
     checked: false,
   };

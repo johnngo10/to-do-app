@@ -6,6 +6,7 @@ import storage from './storage';
 import createProject from './project/createProject';
 import removeProject from './project/removeProject';
 import filterTask from './project/filterTask';
+import editTask from './task/editTask';
 
 const displayController = (() => {
   const content = document.getElementById('content');
@@ -79,6 +80,26 @@ const displayController = (() => {
       </div>
     </div>
   </div>
+  <div id="edit-task-modal">
+    <form action="#" id="edit-task-form">
+      <div id="edit-task-group-1">
+        <input type="text" placeholder="Add a task" required id="edit-task-title" name="title" />
+        <textarea
+          name="description"
+          id="edit-task-description"
+          placeholder="Description"
+        ></textarea>
+      </div>
+      <div id="edit-task-group-2">
+        <input type="date" id="edit-task-date" name="date" required />
+        <input type="text" id="edit-task-project"/>
+      </div>
+      <div id="create-task-group-3">
+        <button id="cancel-edit-button">Cancel</button>
+        <input type="submit" id="submit-edit-button" />
+      </div>
+    </form>
+  </div>
   `;
 
   const addProject = document.getElementById('add-project');
@@ -96,6 +117,8 @@ const displayController = (() => {
   const addProjectInputContainer = document.getElementById(
     'add-project-input-container'
   );
+  const editTaskForm = document.getElementById('edit-task-form');
+  const cancelEditButton = document.getElementById('cancel-edit-button');
   let myTasks = [];
   let myProjects = [];
 
@@ -112,7 +135,7 @@ const displayController = (() => {
           <div class="button-date-group">
             <div class="task-buttons">
               <div>
-                <i class="far fa-edit"></i>
+                <i class="far fa-edit edit-task-button"></i>
               </div>
               <div>
                 <i class="far fa-trash-alt"></i>
@@ -126,6 +149,8 @@ const displayController = (() => {
     }
   };
 
+  // Project functions
+
   const loadProjects = () => {
     for (let i = 0; i < myProjects.length; i++) {
       addProjectInputContainer.insertAdjacentHTML(
@@ -134,7 +159,7 @@ const displayController = (() => {
         <div class="project-group" data-id="${myProjects[i].id}">
           <h3 class="project">${myProjects[i].title}</h3>
           <div class="task-buttons">
-            <i class="far fa-edit"></i>
+            <i class="far fa-edit edit-project-button"></i>
             <i class="far fa-trash-alt delete-project"></i>
           </div>
         </div>
@@ -154,6 +179,10 @@ const displayController = (() => {
       }
 
       loadTask();
+      trashHandler();
+      viewTaskHandler();
+      checkHandler();
+      completedTask();
     });
 
     for (let i = 0; i < project.length; i++) {
@@ -179,6 +208,8 @@ const displayController = (() => {
       deleteProject[i].addEventListener('click', removeProject);
     }
   };
+
+  // Task functions
 
   const addToTaskArr = taskObj => {
     myTasks.push(taskObj);
@@ -226,10 +257,26 @@ const displayController = (() => {
     }
   };
 
-  // const addProjectHandler = () => {
-  //   const addProject = document.getElementById('add-project');
-  //   addProject.addEventListener('click', project);
-  // };
+  const editTaskHandler = () => {
+    const editTaskButton = document.querySelectorAll('.edit-task-button');
+    for (let i = 0; i < editTaskButton.length; i++) {
+      editTaskButton[i].addEventListener('click', editTask);
+    }
+  };
+
+  const editTaskInArr = (id, title, description, dueDate, project) => {
+    for (let i = 0; i < myTasks.length; i++) {
+      if (myTasks[i].id === id) {
+        myTasks[i].id = id;
+        myTasks[i].title = title;
+        myTasks[i].description = description;
+        myTasks[i].dueDate = dueDate;
+        myTasks[i].project = project;
+      }
+    }
+  };
+
+  // Check local storage & populate
 
   if (localStorage.getItem('myTasks')) {
     const getObj = JSON.parse(localStorage.getItem('myTasks'));
@@ -239,6 +286,7 @@ const displayController = (() => {
     viewTaskHandler();
     checkHandler();
     completedTask();
+    editTaskHandler();
   }
 
   if (localStorage.getItem('myProjects')) {
@@ -259,6 +307,8 @@ const displayController = (() => {
     createTaskDescription,
     createTaskDate,
     createTaskProject,
+    editTaskForm,
+    cancelEditButton,
     addToTaskArr,
     addToProjectArr,
     myTasks,
@@ -269,6 +319,10 @@ const displayController = (() => {
     trashHandler,
     viewTaskHandler,
     projectTrashHandler,
+    projectHandler,
+    checkHandler,
+    editTaskHandler,
+    editTaskInArr,
   };
 })();
 

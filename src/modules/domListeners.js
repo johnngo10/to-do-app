@@ -1,6 +1,7 @@
 import displayController from './displayController';
 import addTask from './task/addTask';
 import createProject from './project/createProject';
+import editTask from './task/editTask';
 
 const domListeners = () => {
   const faCheck = document.querySelector('.fa-check');
@@ -9,6 +10,7 @@ const domListeners = () => {
   const addProjectInputContainer = document.getElementById(
     'add-project-input-container'
   );
+  const editTaskModal = document.getElementById('edit-task-modal');
 
   // Add Task
   displayController.addTask.addEventListener('click', e => {

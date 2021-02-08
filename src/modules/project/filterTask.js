@@ -1,4 +1,6 @@
 import displayController from '../displayController';
+import completedTask from '../task/completedTask';
+import storage from '../storage';
 
 const filterTask = e => {
   const target = e.target.textContent.toLowerCase();
@@ -6,6 +8,26 @@ const filterTask = e => {
   const task = document.querySelectorAll('.task');
   const addTask = document.getElementById('add-task');
   const filterArr = [];
+
+  const checkHandler = () => {
+    const checkbox = document.querySelectorAll('.checkbox');
+    for (let i = 0; i < checkbox.length; i++) {
+      checkbox[i].addEventListener('click', e => {
+        const target = e.target;
+        const parent = target.parentElement.parentElement;
+        const completed = target.checked ? 'checked' : false;
+        const taskId = parent.getAttribute('data-id');
+
+        for (let i = 0; i < filterArr.length; i++) {
+          if (filterArr[i].id === taskId) {
+            filterArr[i].checked = completed;
+          }
+        }
+        storage.saveToLocal();
+        completedTask();
+      });
+    }
+  };
 
   for (let i = 0; i < task.length; i++) {
     task[i].remove();
@@ -29,7 +51,7 @@ const filterTask = e => {
         <div class="button-date-group">
           <div class="task-buttons">
             <div>
-              <i class="far fa-edit"></i>
+              <i class="far fa-edit edit-task-button"></i>
             </div>
             <div>
               <i class="far fa-trash-alt"></i>
@@ -40,11 +62,13 @@ const filterTask = e => {
       </div>
     `
     );
+    checkHandler();
+    completedTask();
   }
 
-  // console.log(filterArr);
-
-  // console.log(displayController.myTasks);
+  displayController.trashHandler();
+  displayController.viewTaskHandler();
+  displayController.editTaskHandler();
 };
 
 export default filterTask;
