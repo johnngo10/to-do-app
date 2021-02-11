@@ -177,9 +177,15 @@ const displayController = (() => {
 
     allProject.addEventListener('click', e => {
       const task = document.querySelectorAll('.task');
+      const target = e.target;
       for (let i = 0; i < task.length; i++) {
         task[i].remove();
       }
+
+      for (let i = 0; i < project.length; i++) {
+        project[i].style.color = '#333333';
+      }
+      target.style.color = '#262626';
 
       loadTask();
       trashHandler();

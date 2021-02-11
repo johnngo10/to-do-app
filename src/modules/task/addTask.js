@@ -2,6 +2,7 @@ import task from './task';
 import displayController from '../displayController';
 import storage from '../storage';
 import project from '../project/project';
+const format = require('date-fns/format');
 
 const addTask = e => {
   e.preventDefault();
@@ -21,12 +22,18 @@ const addTask = e => {
   }
   const taskId = s4() + '-' + s4() + '-' + s4();
 
+  const year = createTaskDate.slice(0, 4);
+  const month = createTaskDate.slice(5, 7);
+  const day = createTaskDate.slice(8);
+
+  const date = format(new Date(year, month, day), 'MM-dd-yyyy');
+
   // Create a new task object
   const newTask = task(
     taskId,
     createTaskTitle,
     createTaskDescription,
-    createTaskDate,
+    date,
     createTaskProject
   );
 
@@ -60,7 +67,10 @@ const addTask = e => {
     projectArr.push(displayController.myProjects[i].title.toLowerCase());
   }
 
-  if (projectArr.indexOf(createTaskProject.toLowerCase()) < 0) {
+  if (
+    projectArr.indexOf(createTaskProject.toLowerCase()) < 0 &&
+    createTaskProject !== ''
+  ) {
     const addProjectInputContainer = document.getElementById(
       'add-project-input-container'
     );

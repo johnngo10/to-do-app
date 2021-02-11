@@ -66,6 +66,17 @@ const filterTask = e => {
     completedTask();
   }
 
+  // Add focus on selected project
+  const project = document.querySelectorAll('.project');
+  const allProject = document.getElementById('all-project');
+  const selectedProject = e.target;
+
+  for (let i = 0; i < project.length; i++) {
+    project[i].style.color = '#333333';
+  }
+  allProject.style.color = '#333333';
+  selectedProject.style.color = '#262626';
+
   displayController.trashHandler();
   displayController.viewTaskHandler();
   displayController.editTaskHandler();
