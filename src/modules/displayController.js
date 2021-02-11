@@ -8,6 +8,7 @@ import removeProject from './project/removeProject';
 import filterTask from './project/filterTask';
 import editTask from './task/editTask';
 import editProject from './project/editProject';
+const format = require('date-fns/format');
 
 const displayController = (() => {
   const content = document.getElementById('content');
@@ -336,11 +337,17 @@ const displayController = (() => {
     const editTaskDate = document.getElementById('edit-task-date');
     const editTaskProject = document.getElementById('edit-task-project');
 
+    const year = editTaskDate.value.slice(0, 4);
+    const month = parseInt(editTaskDate.value.slice(5, 7)) - 1;
+    const day = editTaskDate.value.slice(8);
+
+    const date = format(new Date(year, month, day), 'MM-dd-yyyy');
+
     displayController.editTaskInArr(
       editId,
       editTaskTitle.value,
       editTaskDescription.value,
-      editTaskDate.value,
+      date,
       editTaskProject.value
     );
     storage.saveToLocal();
@@ -352,7 +359,7 @@ const displayController = (() => {
         const taskTitle = targetTask.firstElementChild.lastElementChild;
         const taskDate = targetTask.lastElementChild.lastElementChild;
         taskTitle.textContent = editTaskTitle.value;
-        taskDate.textContent = editTaskDate.value;
+        taskDate.textContent = date;
       }
     }
   });

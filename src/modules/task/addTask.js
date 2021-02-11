@@ -23,7 +23,7 @@ const addTask = e => {
   const taskId = s4() + '-' + s4() + '-' + s4();
 
   const year = createTaskDate.slice(0, 4);
-  const month = createTaskDate.slice(5, 7);
+  const month = parseInt(createTaskDate.slice(5, 7)) - 1;
   const day = createTaskDate.slice(8);
 
   const date = format(new Date(year, month, day), 'MM-dd-yyyy');

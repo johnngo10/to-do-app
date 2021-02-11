@@ -15,16 +15,18 @@ const editTask = e => {
   const getObj = JSON.parse(localStorage.getItem('myTasks'));
   const taskObj = getObj.filter(e => e.id === taskId);
 
-  const year = editTaskDate.value.slice(0, 4);
-  const month = editTaskDate.value.slice(5, 7);
-  const day = editTaskDate.value.slice(8);
+  const month = taskObj[0].dueDate.slice(0, 2);
+  const day = taskObj[0].dueDate.slice(3, 5);
+  const year = taskObj[0].dueDate.slice(6);
 
-  const date = format(new Date(year, month, day), 'MM-dd-yyyy');
+  const date = `${year}-${month}-${day}`;
+
+  // const date = format(new Date(year, month, day), 'yyyy-MM-dd');
 
   editTaskModal.style.display = 'flex';
   editTaskTitle.value = taskObj[0].title;
   editTaskDescription.value = taskObj[0].description;
-  date = taskObj[0].dueDate;
+  editTaskDate.value = date;
   editTaskProject.value = taskObj[0].project;
 
   displayController.updateEditId(taskId);
