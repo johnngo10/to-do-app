@@ -39,8 +39,12 @@ const addTask = e => {
       </div>
       <div class="button-date-group">
         <div class="task-buttons">
-          <i class="far fa-edit edit-task-button"></i>
-          <i class="far fa-trash-alt"></i>
+          <div>
+            <i class="far fa-edit edit-task-button"></i>
+          </div>
+          <div>
+            <i class="far fa-trash-alt"></i>
+          </div>
         </div>
         <p class="due-date">${newTask.dueDate}</p>
       </div>
@@ -53,6 +57,7 @@ const addTask = e => {
   displayController.viewTaskHandler();
   displayController.checkHandler();
   displayController.editTaskHandler();
+  displayController.displayTaskButtonsOnHover();
   storage.saveToLocal();
 
   displayController.createTaskModal.style.display = 'none';

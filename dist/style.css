@@ -39,7 +39,8 @@
   padding: 0 0 10px 0;
 }
 
-.project-group {
+.project-group,
+.project-group-all {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,13 +95,50 @@
   opacity: 1;
 }
 
+.add-project-buttons {
+  display: flex;
+  padding-right: 20px;
+}
+
 #add-project-input-container input {
   border: 1px solid #3333;
   font-size: 29.25px;
   background-color: salmon;
   outline: none;
   width: 80%;
-  padding: 0 5px;
+  padding: 5px;
+  color: #333333;
+  font-weight: bold;
+}
+
+/* Edit Project */
+#edit-project-input-container {
+  /* display: none; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#edit-project-input-container .fa-check,
+.fa-ban {
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.5;
+  padding-left: 5px;
+}
+
+#edit-project-input-container .fa-check:hover,
+.fa-ban:hover {
+  opacity: 1;
+}
+
+#edit-project-input-container input {
+  border: 1px solid #3333;
+  font-size: 29.25px;
+  background-color: salmon;
+  outline: none;
+  width: 80%;
+  padding: 5px;
   color: #333333;
   font-weight: bold;
 }
@@ -146,7 +184,7 @@
 }
 
 .task-buttons {
-  display: flex;
+  display: none;
   padding-right: 20px;
 }
 

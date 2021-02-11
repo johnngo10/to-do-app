@@ -7,6 +7,7 @@ import createProject from './project/createProject';
 import removeProject from './project/removeProject';
 import filterTask from './project/filterTask';
 import editTask from './task/editTask';
+import project from './project/project';
 
 const displayController = (() => {
   const content = document.getElementById('content');
@@ -17,12 +18,12 @@ const displayController = (() => {
         <div id="project-header">
           <h3>Projects</h3>
         </div>
-        <div class="project-group">
+        <div class="project-group-all">
           <h3 id="all-project">All</h3>
         </div>
         <div id="add-project-input-container">
           <input type="text" id="add-project-input" />
-          <div class="task-buttons">
+          <div class="add-project-buttons">
             <i class="fas fa-check"></i>
             <i class="fas fa-ban"></i>
           </div>
@@ -118,9 +119,11 @@ const displayController = (() => {
     'add-project-input-container'
   );
   const editTaskForm = document.getElementById('edit-task-form');
+  const editTaskModal = document.getElementById('edit-task-modal');
   const cancelEditButton = document.getElementById('cancel-edit-button');
   let myTasks = [];
   let myProjects = [];
+  let editId;
 
   const loadTask = () => {
     for (let i = 0; i < myTasks.length; i++) {
@@ -156,7 +159,7 @@ const displayController = (() => {
       addProjectInputContainer.insertAdjacentHTML(
         'beforebegin',
         `
-        <div class="project-group" data-id="${myProjects[i].id}">
+        <div class="project-group project-hover" data-id="${myProjects[i].id}">
           <h3 class="project">${myProjects[i].title}</h3>
           <div class="task-buttons">
             <i class="far fa-edit edit-project-button"></i>
@@ -183,6 +186,8 @@ const displayController = (() => {
       viewTaskHandler();
       checkHandler();
       completedTask();
+      editTaskHandler();
+      displayTaskButtonsOnHover();
     });
 
     for (let i = 0; i < project.length; i++) {
@@ -206,6 +211,128 @@ const displayController = (() => {
     const deleteProject = document.querySelectorAll('.delete-project');
     for (let i = 0; i < deleteProject.length; i++) {
       deleteProject[i].addEventListener('click', removeProject);
+    }
+  };
+
+  const editProjectInArr = (id, title) => {
+    for (let i = 0; i < myProjects.length; i++) {
+      if (myProjects[i].id === id) {
+        myProjects[i].title = title;
+      }
+    }
+  };
+
+  const editProjectHandler = () => {
+    const editProjectButton = document.querySelectorAll('.edit-project-button');
+    for (let i = 0; i < editProjectButton.length; i++) {
+      editProjectButton[i].addEventListener('click', e => {
+        const target = e.target;
+        const parent = target.parentElement.parentElement;
+        const projectId = parent.getAttribute('data-id');
+        const title = target.parentElement.previousElementSibling.textContent;
+
+        parent.outerHTML = `
+        <div id="edit-project-input-container" data-id="${projectId}">
+          <input type="text" id="edit-project-input" value="${title}"/>
+          <div class="add-project-buttons">
+            <i class="fas fa-check" id="submit-project-edit"></i>
+            <i class="fas fa-ban" id="exit-project-edit"></i>
+          </div>
+        </div>
+        `;
+
+        // parent.innerHTML = `
+        // <div id="edit-project-input-container">
+        //   <input type="text" id="edit-project-input" value="${title}"/>
+        //   <div class="task-buttons">
+        //     <i class="fas fa-check" id="submit-project-edit"></i>
+        //     <i class="fas fa-ban" id="exit-project-edit"></i>
+        //   </div>
+        // </div>
+        // `;
+
+        // Submit edits
+        submitProjectEditHandler(projectId);
+
+        // Exit edits
+        exitProjectEditHandler(projectId);
+      });
+    }
+  };
+
+  const submitProjectEditHandler = id => {
+    const editProjectInput = document.getElementById('edit-project-input');
+    const submitProjectEdit = document.getElementById('submit-project-edit');
+
+    submitProjectEdit.addEventListener('click', e => {
+      editProjectInArr(id, editProjectInput.value);
+      storage.saveProjectToLocal();
+
+      const element = e.target.parentElement.parentElement;
+
+      element.outerHTML = `
+      <div class="project-group project-hover" data-id="${id}">
+        <h3 class="project">${editProjectInput.value}</h3>
+        <div class="task-buttons">
+          <i class="far fa-edit edit-project-button"></i>
+          <i class="far fa-trash-alt delete-project"></i>
+        </div>
+      </div>
+      `;
+
+      projectTrashHandler();
+      projectHandler();
+      editProjectHandler();
+      displayProjectButtonsOnHover();
+    });
+  };
+
+  const exitProjectEditHandler = id => {
+    const exitProjectEdit = document.getElementById('exit-project-edit');
+    const editProjectInputContainer = document.getElementById(
+      'edit-project-input-container'
+    );
+    const project = document.querySelector(`[data-id="${id}"]`);
+    const element = project;
+    const getObj = JSON.parse(localStorage.getItem('myProjects'));
+    const projectObj = getObj.filter(e => e.id === id);
+
+    exitProjectEdit.addEventListener('click', e => {
+      // editProjectInputContainer.remove();
+
+      element.outerHTML = `
+      <div class="project-group project-hover" data-id="${id}">
+        <h3 class="project">${projectObj[0].title}</h3>
+        <div class="task-buttons">
+          <i class="far fa-edit edit-project-button"></i>
+          <i class="far fa-trash-alt delete-project"></i>
+        </div>
+      </div>
+      `;
+
+      projectTrashHandler();
+      projectHandler();
+      editProjectHandler();
+      displayProjectButtonsOnHover();
+    });
+  };
+
+  const displayProjectButtonsOnHover = () => {
+    const projectHover = document.querySelectorAll('.project-hover');
+    for (let i = 0; i < projectHover.length; i++) {
+      projectHover[i].addEventListener('mouseenter', e => {
+        const target = e.target;
+        const child = target.lastElementChild;
+        child.style.display = 'flex';
+      });
+    }
+
+    for (let i = 0; i < projectHover.length; i++) {
+      projectHover[i].addEventListener('mouseleave', e => {
+        const target = e.target;
+        const child = target.lastElementChild;
+        child.style.display = 'none';
+      });
     }
   };
 
@@ -257,6 +384,40 @@ const displayController = (() => {
     }
   };
 
+  const updateEditId = id => {
+    editId = id;
+  };
+
+  editTaskForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const editTaskTitle = document.getElementById('edit-task-title');
+    const editTaskDescription = document.getElementById(
+      'edit-task-description'
+    );
+    const editTaskDate = document.getElementById('edit-task-date');
+    const editTaskProject = document.getElementById('edit-task-project');
+
+    displayController.editTaskInArr(
+      editId,
+      editTaskTitle.value,
+      editTaskDescription.value,
+      editTaskDate.value,
+      editTaskProject.value
+    );
+    storage.saveToLocal();
+    editTaskModal.style.display = 'none';
+
+    for (let i = 0; i < myTasks.length; i++) {
+      if (myTasks[i].id === editId) {
+        const targetTask = document.querySelector(`[data-id="${editId}"]`);
+        const taskTitle = targetTask.firstElementChild.lastElementChild;
+        const taskDate = targetTask.lastElementChild.lastElementChild;
+        taskTitle.textContent = editTaskTitle.value;
+        taskDate.textContent = editTaskDate.value;
+      }
+    }
+  });
+
   const editTaskHandler = () => {
     const editTaskButton = document.querySelectorAll('.edit-task-button');
     for (let i = 0; i < editTaskButton.length; i++) {
@@ -276,6 +437,26 @@ const displayController = (() => {
     }
   };
 
+  // fix this
+  const displayTaskButtonsOnHover = () => {
+    const task = document.querySelectorAll('.task');
+    for (let i = 0; i < task.length; i++) {
+      task[i].addEventListener('mouseenter', e => {
+        const target = e.target;
+        const child = target.lastElementChild.firstElementChild;
+        child.style.display = 'flex';
+      });
+    }
+
+    for (let i = 0; i < task.length; i++) {
+      task[i].addEventListener('mouseleave', e => {
+        const target = e.target;
+        const child = target.lastElementChild.firstElementChild;
+        child.style.display = 'none';
+      });
+    }
+  };
+
   // Check local storage & populate
 
   if (localStorage.getItem('myTasks')) {
@@ -287,6 +468,7 @@ const displayController = (() => {
     checkHandler();
     completedTask();
     editTaskHandler();
+    displayTaskButtonsOnHover();
   }
 
   if (localStorage.getItem('myProjects')) {
@@ -295,6 +477,8 @@ const displayController = (() => {
     loadProjects();
     projectTrashHandler();
     projectHandler();
+    editProjectHandler();
+    displayProjectButtonsOnHover();
   }
 
   return {
@@ -323,6 +507,11 @@ const displayController = (() => {
     checkHandler,
     editTaskHandler,
     editTaskInArr,
+    updateEditId,
+    editId,
+    editProjectHandler,
+    displayTaskButtonsOnHover,
+    displayProjectButtonsOnHover,
   };
 })();
 

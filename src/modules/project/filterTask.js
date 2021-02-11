@@ -69,6 +69,7 @@ const filterTask = e => {
   displayController.trashHandler();
   displayController.viewTaskHandler();
   displayController.editTaskHandler();
+  displayController.displayTaskButtonsOnHover();
 };
 
 export default filterTask;

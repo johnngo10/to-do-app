@@ -22,10 +22,10 @@ const createProject = () => {
   addProjectInputContainer.insertAdjacentHTML(
     'beforebegin',
     `
-    <div class="project-group" data-index="${newProject.id}">
+    <div class="project-group project-hover" data-id="${newProject.id}">
       <h3 class="project">${newProject.title}</h3>
       <div class="task-buttons">
-        <i class="far fa-edit"></i>
+        <i class="far fa-edit edit-project-button"></i>
         <i class="far fa-trash-alt delete-project"></i>
       </div>
     </div>
@@ -38,7 +38,8 @@ const createProject = () => {
   storage.saveProjectToLocal();
   displayController.projectTrashHandler();
   displayController.projectHandler();
-  console.log(displayController.myProjects);
+  displayController.editProjectHandler();
+  displayController.displayProjectButtonsOnHover();
 };
 
 export default createProject;
