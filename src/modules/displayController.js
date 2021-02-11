@@ -7,7 +7,7 @@ import createProject from './project/createProject';
 import removeProject from './project/removeProject';
 import filterTask from './project/filterTask';
 import editTask from './task/editTask';
-import project from './project/project';
+import editProject from './project/editProject';
 
 const displayController = (() => {
   const content = document.getElementById('content');
@@ -241,80 +241,13 @@ const displayController = (() => {
         </div>
         `;
 
-        // parent.innerHTML = `
-        // <div id="edit-project-input-container">
-        //   <input type="text" id="edit-project-input" value="${title}"/>
-        //   <div class="task-buttons">
-        //     <i class="fas fa-check" id="submit-project-edit"></i>
-        //     <i class="fas fa-ban" id="exit-project-edit"></i>
-        //   </div>
-        // </div>
-        // `;
-
         // Submit edits
-        submitProjectEditHandler(projectId);
+        editProject.submitProjectEditHandler(projectId);
 
         // Exit edits
-        exitProjectEditHandler(projectId);
+        editProject.exitProjectEditHandler(projectId);
       });
     }
-  };
-
-  const submitProjectEditHandler = id => {
-    const editProjectInput = document.getElementById('edit-project-input');
-    const submitProjectEdit = document.getElementById('submit-project-edit');
-
-    submitProjectEdit.addEventListener('click', e => {
-      editProjectInArr(id, editProjectInput.value);
-      storage.saveProjectToLocal();
-
-      const element = e.target.parentElement.parentElement;
-
-      element.outerHTML = `
-      <div class="project-group project-hover" data-id="${id}">
-        <h3 class="project">${editProjectInput.value}</h3>
-        <div class="task-buttons">
-          <i class="far fa-edit edit-project-button"></i>
-          <i class="far fa-trash-alt delete-project"></i>
-        </div>
-      </div>
-      `;
-
-      projectTrashHandler();
-      projectHandler();
-      editProjectHandler();
-      displayProjectButtonsOnHover();
-    });
-  };
-
-  const exitProjectEditHandler = id => {
-    const exitProjectEdit = document.getElementById('exit-project-edit');
-    const editProjectInputContainer = document.getElementById(
-      'edit-project-input-container'
-    );
-    const project = document.querySelector(`[data-id="${id}"]`);
-    const element = project;
-    const getObj = JSON.parse(localStorage.getItem('myProjects'));
-    const projectObj = getObj.filter(e => e.id === id);
-
-    exitProjectEdit.addEventListener('click', e => {
-      // editProjectInputContainer.remove();
-
-      element.outerHTML = `
-      <div class="project-group project-hover" data-id="${id}">
-        <h3 class="project">${projectObj[0].title}</h3>
-        <div class="task-buttons">
-          <i class="far fa-edit edit-project-button"></i>
-          <i class="far fa-trash-alt delete-project"></i>
-        </div>
-      </div>
-      `;
-
-      projectTrashHandler();
-      projectHandler();
-      editProjectHandler();
-      displayProjectButtonsOnHover();
-    });
   };
 
   const displayProjectButtonsOnHover = () => {
@@ -512,6 +445,7 @@ const displayController = (() => {
     editProjectHandler,
     displayTaskButtonsOnHover,
     displayProjectButtonsOnHover,
+    editProjectInArr,
   };
 })();
 
