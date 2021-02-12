@@ -21,8 +21,6 @@ const editTask = e => {
 
   const date = `${year}-${month}-${day}`;
 
-  // const date = format(new Date(year, month, day), 'yyyy-MM-dd');
-
   editTaskModal.style.display = 'flex';
   editTaskTitle.value = taskObj[0].title;
   editTaskDescription.value = taskObj[0].description;

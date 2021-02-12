@@ -31,10 +31,16 @@ const viewTask = e => {
     const editTaskDate = document.getElementById('edit-task-date');
     const editTaskProject = document.getElementById('edit-task-project');
 
+    const month = taskObj[0].dueDate.slice(0, 2);
+    const day = taskObj[0].dueDate.slice(3, 5);
+    const year = taskObj[0].dueDate.slice(6);
+
+    const date = `${year}-${month}-${day}`;
+
     editTaskModal.style.display = 'flex';
     editTaskTitle.value = taskObj[0].title;
     editTaskDescription.value = taskObj[0].description;
-    editTaskDate.value = taskObj[0].dueDate;
+    editTaskDate.value = date;
     editTaskProject.value = taskObj[0].project;
 
     displayController.updateEditId(objId);
