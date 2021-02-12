@@ -1,8 +1,6 @@
 import displayController from '../displayController';
-const format = require('date-fns/format');
 
 const editTask = e => {
-  // e.preventDefault();
   const editTaskModal = document.getElementById('edit-task-modal');
   const editTaskTitle = document.getElementById('edit-task-title');
   const editTaskDescription = document.getElementById('edit-task-description');

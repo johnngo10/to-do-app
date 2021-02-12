@@ -1,5 +1,4 @@
 import displayController from '../displayController';
-import editTask from './editTask';
 
 const viewTask = e => {
   const viewTaskTitle = document.getElementById('view-task-title');
