@@ -61,7 +61,7 @@ const displayController = (() => {
         <input type="text" id="create-task-project" />
       </div>
       <div id="create-task-group-3">
-        <button id="cancel-button">Cancel</button>
+        <input type="button" id="cancel-button" value="Cancel"></input>
         <input type="submit" id="submit-button" />
       </div>
     </form>
