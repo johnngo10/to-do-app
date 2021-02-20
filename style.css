@@ -33,6 +33,7 @@
 #project-header {
   border-bottom: 2px solid #333333;
   padding: 0 0 10px 0;
+  font-size: 32px;
 }
 
 .project-group,
@@ -293,8 +294,10 @@
   padding: 5px;
   font-size: 16px;
   margin: 0 0 10px 0;
-  background-color: #f0f8ff;
-  border: none;
+  /* background-color: #f0f8ff; */
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 5px;
   outline: none;
   resize: none;
 }
