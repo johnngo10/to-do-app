@@ -58,7 +58,7 @@ const displayController = (() => {
       </div>
       <div id="create-task-group-2">
         <input type="date" id="create-task-date" name="date" required />
-        <input type="text" id="create-task-project" />
+        <input type="text" id="create-task-project" placeholder="Project"/>
       </div>
       <div id="create-task-group-3">
         <input type="button" id="cancel-button" value="Cancel"></input>
